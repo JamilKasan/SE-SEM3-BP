@@ -4,6 +4,7 @@ import java.util.HashMap;
 public class Morse
 {
     private static final HashMap<String, Character> morseCodeMap = new HashMap<>();
+    public static HashMap<Object, Object> codeMap;
 
     static {
         morseCodeMap.put(".-", 'A');
