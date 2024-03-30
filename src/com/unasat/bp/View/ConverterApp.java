@@ -1,5 +1,9 @@
 package com.unasat.bp.View;
 
+import com.unasat.bp.Classes.MorseToText;
+import com.unasat.bp.Classes.TextToBinary;
+import com.unasat.bp.Classes.TextToMorse;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -24,44 +28,38 @@ public class ConverterApp extends JFrame {
 
         // Create File menu
         JMenu fileMenu = new JMenu("File");
-        JMenuItem openMenuItem = new JMenuItem("Open");
-        JMenuItem saveMenuItem = new JMenuItem("Save");
         JMenuItem exitMenuItem = new JMenuItem("Exit");
         exitMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
             }
         });
-        fileMenu.add(openMenuItem);
-        fileMenu.add(saveMenuItem);
         fileMenu.addSeparator();
         fileMenu.add(exitMenuItem);
         menuBar.add(fileMenu);
 
         // Create Edit menu
-        JMenu editMenu = new JMenu("Edit");
-        JMenuItem cutMenuItem = new JMenuItem("Cut");
-        JMenuItem copyMenuItem = new JMenuItem("Copy");
-        JMenuItem pasteMenuItem = new JMenuItem("Paste");
-        editMenu.add(cutMenuItem);
-        editMenu.add(copyMenuItem);
-        editMenu.add(pasteMenuItem);
-        menuBar.add(editMenu);
 
         // Create View menu
-        JMenu viewMenu = new JMenu("View");
-        JMenuItem zoomInMenuItem = new JMenuItem("Zoom In");
-        JMenuItem zoomOutMenuItem = new JMenuItem("Zoom Out");
-        viewMenu.add(zoomInMenuItem);
-        viewMenu.add(zoomOutMenuItem);
-        menuBar.add(viewMenu);
+        JMenu organizationMenu = new JMenu("Organization");
+        JMenuItem membersMenuItem = new JMenuItem("Members");
+        membersMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //TODO: Add members' name here
+                JOptionPane.showMessageDialog(ConverterApp.this, "Members of the organization: Yaish Kedah, Nikhil, Peter, Jamil Kasan", "Organization Members", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+        organizationMenu.add(membersMenuItem);
+        menuBar.add(organizationMenu);
+
 
         // Create Help menu
         JMenu helpMenu = new JMenu("Help");
-        JMenuItem aboutMenuItem = new JMenuItem("About");
+        JMenuItem aboutMenuItem = new JMenuItem("Instructions");
         aboutMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(ConverterApp.this, "This is an example Java Swing application.", "About", JOptionPane.INFORMATION_MESSAGE);
+                //TODO: Add instructions here
+                JOptionPane.showMessageDialog(ConverterApp.this, "{{Instructions come here}}", "About", JOptionPane.INFORMATION_MESSAGE);
             }
         });
         helpMenu.add(aboutMenuItem);
@@ -102,18 +100,31 @@ public class ConverterApp extends JFrame {
         JTextField morseInput = createInputField();
         JTextField morseOutput = createOutputField();
         JButton convertMorseToTextButton = createConvertButton("Convert");
-        JButton exampleButton1 = createExampleButton();
+        JButton morseExampleButton = createExampleButton();
 
         convertMorseToTextButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Implement conversion logic here
+                String value = morseInput.getText();
+                MorseToText morse = new MorseToText();
+                String result = morse.convert(value);
+                morseOutput.setText(result);
+            }
+        });
+
+        morseExampleButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String exampleMorse = ".... . .-.. .-.. ---  .-- --- .-. .-.. -..";
+                morseInput.setText(exampleMorse);
+                MorseToText morse = new MorseToText();
+                String result = morse.convert(exampleMorse);
+                morseOutput.setText(result);
             }
         });
 
         morseToTextPanel.add(morseInput);
         morseToTextPanel.add(morseOutput);
         morseToTextPanel.add(convertMorseToTextButton);
-        morseToTextPanel.add(exampleButton1);
+        morseToTextPanel.add(morseExampleButton);
         JButton backButton1 = createBackButton();
         backButton1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -129,18 +140,31 @@ public class ConverterApp extends JFrame {
         JTextField textInput = createInputField();
         JTextField textOutput = createOutputField();
         JButton convertTextToMorseButton = createConvertButton("Convert");
-        JButton exampleButton2 = createExampleButton();
+        JButton textExampleButton = createExampleButton();
 
         convertTextToMorseButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Implement conversion logic here
+                String value = textInput.getText();
+                TextToMorse text = new TextToMorse();
+                String results = text.convert(value);
+                textOutput.setText(results);
+            }
+        });
+
+        textExampleButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String exampleText = "Hello World";
+                textInput.setText(exampleText);
+                TextToMorse text = new TextToMorse();
+                String results = text.convert(exampleText);
+                textOutput.setText(results);
             }
         });
 
         textToMorsePanel.add(textInput);
         textToMorsePanel.add(textOutput);
         textToMorsePanel.add(convertTextToMorseButton);
-        textToMorsePanel.add(exampleButton2);
+        textToMorsePanel.add(textExampleButton);
         JButton backButton2 = createBackButton();
         backButton2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -156,18 +180,31 @@ public class ConverterApp extends JFrame {
         JTextField textBinaryInput = createInputField();
         JTextField binaryOutput = createOutputField();
         JButton convertTextToBinaryButton = createConvertButton("Convert");
-        JButton exampleButton3 = createExampleButton();
+        JButton BinaryExampleButton = createExampleButton();
 
         convertTextToBinaryButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Implement conversion logic here
+                String value = textBinaryInput.getText();
+                TextToBinary binary = new TextToBinary();
+                String result = binary.textToBinary(value);
+                binaryOutput.setText(result);
+            }
+        });
+
+        BinaryExampleButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String exampleBinaryText = "Hello World";
+                textBinaryInput.setText(exampleBinaryText);
+                TextToBinary binary = new TextToBinary();
+                String result = binary.textToBinary(exampleBinaryText);
+                binaryOutput.setText(result);
             }
         });
 
         textToBinaryPanel.add(textBinaryInput);
         textToBinaryPanel.add(binaryOutput);
         textToBinaryPanel.add(convertTextToBinaryButton);
-        textToBinaryPanel.add(exampleButton3);
+        textToBinaryPanel.add(BinaryExampleButton);
         JButton backButton3 = createBackButton();
         backButton3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -243,5 +280,13 @@ public class ConverterApp extends JFrame {
         button.setFont(new Font("Arial", Font.BOLD, 14));
         return button;
     }
+    public static void main(String[] args)
+    {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new ConverterApp();
+            }
+        });
 
+    }
 }
