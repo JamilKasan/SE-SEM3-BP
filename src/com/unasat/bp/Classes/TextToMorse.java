@@ -1,27 +1,63 @@
 package com.unasat.bp.Classes;
 
+import java.util.HashMap;
+
 public class TextToMorse {
-    // Method to convert text to Morse code
-    public static String toMorse(String text) {
-        StringBuilder morseCode = new StringBuilder();
-        for (char c : text.toUpperCase().toCharArray()) {
-            if (c == ' ') {
-                // Append space separator for words
-                morseCode.append(" / ");
-            } else if (Morse.codeMap.containsKey(c)) {
-                // Append Morse code for characters
-                morseCode.append(Morse.codeMap.get(c)).append(" ");
+    // Character to Morse code mapping
+    private static final HashMap<Character, String> textToMorseMap = new HashMap<>();
+
+    static {
+        textToMorseMap.put('A', ".-");
+        textToMorseMap.put('B', "-...");
+        textToMorseMap.put('C', "-.-.");
+        textToMorseMap.put('D', "-..");
+        textToMorseMap.put('E', ".");
+        textToMorseMap.put('F', "..-.");
+        textToMorseMap.put('G', "--.");
+        textToMorseMap.put('H', "....");
+        textToMorseMap.put('I', "..");
+        textToMorseMap.put('J', ".---");
+        textToMorseMap.put('K', "-.-");
+        textToMorseMap.put('L', ".-..");
+        textToMorseMap.put('M', "--");
+        textToMorseMap.put('N', "-.");
+        textToMorseMap.put('O', "---");
+        textToMorseMap.put('P', ".--.");
+        textToMorseMap.put('Q', "--.-");
+        textToMorseMap.put('R', ".-.");
+        textToMorseMap.put('S', "...");
+        textToMorseMap.put('T', "-");
+        textToMorseMap.put('U', "..-");
+        textToMorseMap.put('V', "...-");
+        textToMorseMap.put('W', ".--");
+        textToMorseMap.put('X', "-..-");
+        textToMorseMap.put('Y', "-.--");
+        textToMorseMap.put('Z', "--..");
+        textToMorseMap.put('0', "-----");
+        textToMorseMap.put('1', ".----");
+        textToMorseMap.put('2', "..---");
+        textToMorseMap.put('3', "...--");
+        textToMorseMap.put('4', "....-");
+        textToMorseMap.put('5', ".....");
+        textToMorseMap.put('6', "-....");
+        textToMorseMap.put('7', "--...");
+        textToMorseMap.put('8', "---..");
+        textToMorseMap.put('9', "----.");
+        textToMorseMap.put('.', ".-.-.-");
+        textToMorseMap.put(',', "--..--");
+    }
+
+    public String convert(String text) {
+        StringBuilder result = new StringBuilder();
+        text = text.toUpperCase();
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            if (textToMorseMap.containsKey(c)) {
+                result.append(textToMorseMap.get(c)).append(" ");
+            } else if (c == ' ') {
+                result.append(" ");
             }
         }
-        return morseCode.toString().trim();
-    }
-    public static void main(String[] args) {
-        // Translate text to Morse code
-        String inputText = "Hello World";
-        String morseCode = TextToMorse.toMorse(inputText);
-        System.out.println("Text to Morse Code:");
-        System.out.println(inputText + " -> " + morseCode);
+        return result.toString().trim(); // Trim any leading or trailing spaces
     }
 }
-
-

@@ -6,7 +6,7 @@ public class Morse
     private static final HashMap<String, Character> morseCodeMap = new HashMap<>();
     public static HashMap<Object, Object> codeMap;
     public static HashMap<Object, Object> reverseCodeMap;
-    public static Object reverseCodeMap;
+//    public static Object reve;
 
     static {
         morseCodeMap.put(".-", 'A');

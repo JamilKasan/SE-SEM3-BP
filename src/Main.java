@@ -1,11 +1,15 @@
-import com.unasat.bp.Classes.Morse;
-import com.unasat.bp.View.Home;
+import com.unasat.bp.View.ConverterApp;
 
-import java.util.Scanner;
+import javax.swing.*;
 
 public class Main {
-    public static void main(String[] args) {
-        Home start = new Home();
-        start.setVisible(true);
+    public static void main(String[] args)
+    {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new ConverterApp();
+            }
+        });
+
     }
 }
