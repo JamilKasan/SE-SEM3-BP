@@ -60,9 +60,10 @@ public class ConverterApp extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 //TODO: Add instructions here
                 JOptionPane.showMessageDialog(ConverterApp.this,
-                        "1. Create an instance of TextToMorse or MorseToText." + "  " +
-                        "2. Call the corresponding method (toMorse or toText) with your message as argument." +"   " +
-                        "3. The translated message will be returned.", "About", JOptionPane.INFORMATION_MESSAGE);
+                        "1. Voeg een tekstbestand toe door op de 'Bestand toevoegen' knop te klikken.\n\n" +
+                                "2. Selecteer het gewenste conversietype (bijvoorbeeld 'Tekst naar Morse' of 'Morse naar Tekst').\n\n" +
+                                "3. Klik op de 'Converteren' knop om de conversie uit te voeren.\n\n" +
+                                "4. Het resultaat wordt weergegeven in het uitvoerveld of kan worden opgeslagen door op 'Opslaan' te klikken.", "About", JOptionPane.INFORMATION_MESSAGE);
             }
         });
         helpMenu.add(aboutMenuItem);
