@@ -104,6 +104,7 @@ public class ConverterApp extends JFrame {
         JTextField morseInput = createInputField();
         JTextField morseOutput = createOutputField();
         JButton convertMorseToTextButton = createConvertButton("Convert");
+        JButton swapMorseToText = createConvertButton("Swap");
         JButton morseExampleButton = createExampleButton();
 
         convertMorseToTextButton.addActionListener(new ActionListener() {
@@ -125,10 +126,17 @@ public class ConverterApp extends JFrame {
             }
         });
 
+        swapMorseToText.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(contentPane, "TextToMorse");
+            }
+        });
+
         morseToTextPanel.add(morseInput);
         morseToTextPanel.add(morseOutput);
         morseToTextPanel.add(convertMorseToTextButton);
         morseToTextPanel.add(morseExampleButton);
+        morseToTextPanel.add(swapMorseToText);
         JButton backButton1 = createBackButton();
         backButton1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -144,6 +152,7 @@ public class ConverterApp extends JFrame {
         JTextField textInput = createInputField();
         JTextField textOutput = createOutputField();
         JButton convertTextToMorseButton = createConvertButton("Convert");
+        JButton swapTextToMorse = createConvertButton("Swap");
         JButton textExampleButton = createExampleButton();
 
         convertTextToMorseButton.addActionListener(new ActionListener() {
@@ -165,10 +174,17 @@ public class ConverterApp extends JFrame {
             }
         });
 
+        swapTextToMorse.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(contentPane, "MorseToText");
+            }
+        });
+
         textToMorsePanel.add(textInput);
         textToMorsePanel.add(textOutput);
         textToMorsePanel.add(convertTextToMorseButton);
         textToMorsePanel.add(textExampleButton);
+        textToMorsePanel.add(swapTextToMorse);
         JButton backButton2 = createBackButton();
         backButton2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
