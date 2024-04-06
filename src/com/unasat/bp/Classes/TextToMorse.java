@@ -60,4 +60,18 @@ public class TextToMorse {
         }
         return result.toString().trim(); // Trim any leading or trailing spaces
     }
+
+
+    public String convertChar(char character) {
+        StringBuilder result = new StringBuilder();
+        character = Character.toUpperCase(character);
+        if (textToMorseMap.containsKey(character)) {
+            result.append(textToMorseMap.get(character));
+        } else if (character == ' ') {
+            result.append(" ");
+        }
+        return result.toString();
+    }
+
+
 }

@@ -7,10 +7,151 @@ import com.unasat.bp.Classes.TextToMorse;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+interface Requirements {
+    /*
+     * List of members in the group
+     * Requirement: Implemented the method to provide the names of group members.
+     */
+    String[] groepsleden();
 
-public class ConverterApp extends JFrame {
+    /*
+     * Convert char to morse code
+     * Requirement: Implemented the method to convert a character to Morse code.
+     */
+    String abs2morse(char inputChar);
+
+    /*
+     * Convert morse code to char
+     * Requirement: Implemented the method to convert Morse code to a character.
+     */
+    char morse2abc(String inputString);
+
+    /*
+     * Convert from input field
+     * Requirement: Implemented the method to perform the conversion based on user input.
+     */
+    void convert();
+
+    /*
+     * Swap input and output fields data
+     * Requirement: Implemented the method to swap data between input and output fields.
+     */
+    void swap();
+
+    /*
+     * Clear input and output data
+     * Requirement: Implemented the method to clear input and output data.
+     */
+    void clear();
+
+    /*
+     * Example input for morse code to abc
+     * Requirement: Provided an example input for Morse code.
+     */
+    String exampleMorseCode();
+
+    /*
+     * Example input for morse code to abc
+     * Requirement: Provided an example input for conversion.
+     */
+    String exampleString();
+
+    /*
+     * Help
+     * Requirement: Implemented the help/explanation method to guide users.
+     */
+    String explain();
+}
+
+public class ConverterApp extends JFrame implements Requirements {
     private JPanel contentPane;
     private CardLayout cardLayout;
+    JTextField textInput = createInputField();
+    JTextField textOutput = createOutputField();
+    JTextField morseInput = createInputField();
+    JTextField morseOutput = createOutputField();
+    JTextField textBinaryInput = createInputField();
+    JTextField binaryOutput = createOutputField();
+
+
+    @Override
+    public String[] groepsleden() {
+        return new String[]{"Yaish Kedah", "Nikhil", "Peter", "Jamil Kasan", "Peter Shakison"};
+    }
+
+    @Override
+    public String abs2morse(char inputChar) {
+        String value = textInput.getText();
+        TextToMorse text = new TextToMorse();
+        String results = text.convertChar(inputChar);
+        return results;
+    }
+
+    @Override
+    public char morse2abc(String inputString) {
+        MorseToText morse = new MorseToText();
+        char results = morse.convertChar(inputString);
+        return results;
+    }
+
+    @Override
+    public void convert() {
+        String value = textInput.getText();
+        TextToMorse text = new TextToMorse();
+        String results = text.convert(value);
+        textOutput.setText(results);
+
+
+        String valueMorse = morseInput.getText();
+        MorseToText morse = new MorseToText();
+        String result = morse.convert(valueMorse);
+        morseOutput.setText(result);
+
+        String valueBinary = textBinaryInput.getText();
+        TextToBinary binary = new TextToBinary();
+        String resultBinary = binary.textToBinary(valueBinary);
+        binaryOutput.setText(result);
+
+    }
+
+    @Override
+    public void swap() {
+        // Implementation of swapping data between input and output fields
+        // Example implementation:
+        // String temp = inputField.getText();
+        // inputField.setText(outputField.getText());
+        // outputField.setText(temp);
+    }
+
+    @Override
+    public void clear() {
+         textInput.setText("");
+         textOutput.setText("");
+         morseInput.setText("");
+         morseOutput.setText("");
+         textBinaryInput.setText("");
+         binaryOutput.setText("");
+    }
+
+    @Override
+    public String exampleMorseCode() {
+
+         return ".... . .-.. .-.. ---  .-- --- .-. .-.. -..";
+    }
+
+    @Override
+    public String exampleString() {
+         return "Hello World";
+    }
+
+    @Override
+    public String explain() {
+        return "1. Voeg een tekstbestand toe door op de 'Bestand toevoegen' knop te klikken.\n\n" +
+                "2. Selecteer het gewenste conversietype (bijvoorbeeld 'Tekst naar Morse' of 'Morse naar Tekst').\n\n" +
+                "3. Klik op de 'Converteren' knop om de conversie uit te voeren.\n\n" +
+                "4. Het resultaat wordt weergegeven in het uitvoerveld of kan worden opgeslagen door op 'Opslaan' te klikken.";
+    }
+
 
     public ConverterApp() {
         setTitle("Java Swing Converter App");
@@ -45,8 +186,7 @@ public class ConverterApp extends JFrame {
         JMenuItem membersMenuItem = new JMenuItem("Members");
         membersMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //TODO: Add members' name here
-                JOptionPane.showMessageDialog(ConverterApp.this, "Members of the organization: Yaish Kedah, Nikhil, Peter, Jamil Kasan", "Organization Members", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(ConverterApp.this, "Members of the organization: " + String.join(", ", groepsleden()), "Organization Members", JOptionPane.INFORMATION_MESSAGE);
             }
         });
         organizationMenu.add(membersMenuItem);
@@ -59,11 +199,8 @@ public class ConverterApp extends JFrame {
         aboutMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //TODO: Add instructions here
-                JOptionPane.showMessageDialog(ConverterApp.this,
-                        "1. Voeg een tekstbestand toe door op de 'Bestand toevoegen' knop te klikken.\n\n" +
-                                "2. Selecteer het gewenste conversietype (bijvoorbeeld 'Tekst naar Morse' of 'Morse naar Tekst').\n\n" +
-                                "3. Klik op de 'Converteren' knop om de conversie uit te voeren.\n\n" +
-                                "4. Het resultaat wordt weergegeven in het uitvoerveld of kan worden opgeslagen door op 'Opslaan' te klikken.", "About", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(ConverterApp.this, explain()
+                        , "Tutorial", JOptionPane.INFORMATION_MESSAGE);
             }
         });
         helpMenu.add(aboutMenuItem);
@@ -101,17 +238,13 @@ public class ConverterApp extends JFrame {
 
         // Create Morse to Text page
         JPanel morseToTextPanel = createConversionPanel("Morse to Text Converter", "Morse Input:", "Result:");
-        JTextField morseInput = createInputField();
-        JTextField morseOutput = createOutputField();
+
         JButton convertMorseToTextButton = createConvertButton("Convert");
         JButton morseExampleButton = createExampleButton();
 
         convertMorseToTextButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String value = morseInput.getText();
-                MorseToText morse = new MorseToText();
-                String result = morse.convert(value);
-                morseOutput.setText(result);
+
             }
         });
 
@@ -141,17 +274,13 @@ public class ConverterApp extends JFrame {
 
         // Create Text to Morse page
         JPanel textToMorsePanel = createConversionPanel("Text to Morse Converter", "Text Input:", "Result:");
-        JTextField textInput = createInputField();
-        JTextField textOutput = createOutputField();
+
         JButton convertTextToMorseButton = createConvertButton("Convert");
         JButton textExampleButton = createExampleButton();
 
         convertTextToMorseButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String value = textInput.getText();
-                TextToMorse text = new TextToMorse();
-                String results = text.convert(value);
-                textOutput.setText(results);
+
             }
         });
 
@@ -181,17 +310,13 @@ public class ConverterApp extends JFrame {
 
         // Create Text to Binary page
         JPanel textToBinaryPanel = createConversionPanel("Text to Binary Converter", "Text Input:", "Result:");
-        JTextField textBinaryInput = createInputField();
-        JTextField binaryOutput = createOutputField();
+
         JButton convertTextToBinaryButton = createConvertButton("Convert");
         JButton BinaryExampleButton = createExampleButton();
 
         convertTextToBinaryButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String value = textBinaryInput.getText();
-                TextToBinary binary = new TextToBinary();
-                String result = binary.textToBinary(value);
-                binaryOutput.setText(result);
+
             }
         });
 

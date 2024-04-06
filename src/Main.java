@@ -2,7 +2,12 @@ import com.unasat.bp.View.ConverterApp;
 
 import javax.swing.*;
 
-public interface Main {
+
+
+
+
+public class Main  {
+
     public static void main(String[] args)
     {
         SwingUtilities.invokeLater(new Runnable() {

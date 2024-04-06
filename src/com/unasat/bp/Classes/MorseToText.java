@@ -66,4 +66,22 @@ public class MorseToText
         }
         return result.toString().trim(); // Trim any leading or trailing spaces
     }
+
+    public char convertChar(String morseCode) {
+        StringBuilder result = new StringBuilder();
+        String[] words = morseCode.split(" / ");
+        for (String word : words) {
+            String[] letters = word.split(" ");
+            for (String letter : letters) {
+                if (morseCodeMap.containsKey(letter)) {
+                    result.append(morseCodeMap.get(letter));
+                } else {
+                    result.append(' ');
+                }
+            }
+            result.append(' ');
+        }
+        return result.length() > 0 ? result.charAt(0) : ' ';
+    }
+
 }
