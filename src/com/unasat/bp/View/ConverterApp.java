@@ -3,67 +3,15 @@ package com.unasat.bp.View;
 import com.unasat.bp.Classes.MorseToText;
 import com.unasat.bp.Classes.TextToBinary;
 import com.unasat.bp.Classes.TextToMorse;
+import com.unasat.bp.Requirements;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-interface Requirements {
-    /*
-     * List of members in the group
-     * Requirement: Implemented the method to provide the names of group members.
-     */
-    String[] groepsleden();
 
-    /*
-     * Convert char to morse code
-     * Requirement: Implemented the method to convert a character to Morse code.
-     */
-    String abs2morse(char inputChar);
-
-    /*
-     * Convert morse code to char
-     * Requirement: Implemented the method to convert Morse code to a character.
-     */
-    char morse2abc(String inputString);
-
-    /*
-     * Convert from input field
-     * Requirement: Implemented the method to perform the conversion based on user input.
-     */
-    void convert();
-
-    /*
-     * Swap input and output fields data
-     * Requirement: Implemented the method to swap data between input and output fields.
-     */
-    void swap();
-
-    /*
-     * Clear input and output data
-     * Requirement: Implemented the method to clear input and output data.
-     */
-    void clear();
-
-    /*
-     * Example input for morse code to abc
-     * Requirement: Provided an example input for Morse code.
-     */
-    String exampleMorseCode();
-
-    /*
-     * Example input for morse code to abc
-     * Requirement: Provided an example input for conversion.
-     */
-    String exampleString();
-
-    /*
-     * Help
-     * Requirement: Implemented the help/explanation method to guide users.
-     */
-    String explain();
-}
 
 public class ConverterApp extends JFrame implements Requirements {
+    private String currentPage;
     private JPanel contentPane;
     private CardLayout cardLayout;
     JTextField textInput = createInputField();
@@ -100,27 +48,40 @@ public class ConverterApp extends JFrame implements Requirements {
         TextToMorse text = new TextToMorse();
         String results = text.convert(value);
         textOutput.setText(results);
+        System.out.println("results");
 
 
         String valueMorse = morseInput.getText();
         MorseToText morse = new MorseToText();
-        String result = morse.convert(valueMorse);
-        morseOutput.setText(result);
+        String result2 = morse.convert(valueMorse);
+        morseOutput.setText(result2);
+        System.out.println("result2");
 
         String valueBinary = textBinaryInput.getText();
         TextToBinary binary = new TextToBinary();
         String resultBinary = binary.textToBinary(valueBinary);
-        binaryOutput.setText(result);
+        binaryOutput.setText(resultBinary);
+        System.out.println("resultBinary");
 
     }
 
     @Override
     public void swap() {
-        // Implementation of swapping data between input and output fields
-        // Example implementation:
-        // String temp = inputField.getText();
-        // inputField.setText(outputField.getText());
-        // outputField.setText(temp);
+        if (currentPage == "MorseToText")
+        {
+            currentPage = "TextToMorse";
+            cardLayout.show(contentPane, "TextToMorse");
+            System.out.println(currentPage);
+
+        }
+        else
+        {
+            currentPage = "MorseToText";
+            cardLayout.show(contentPane, currentPage);
+            System.out.println(currentPage);
+
+
+        }
     }
 
     @Override
@@ -198,7 +159,6 @@ public class ConverterApp extends JFrame implements Requirements {
         JMenuItem aboutMenuItem = new JMenuItem("Instructions");
         aboutMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //TODO: Add instructions here
                 JOptionPane.showMessageDialog(ConverterApp.this, explain()
                         , "Tutorial", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -214,19 +174,22 @@ public class ConverterApp extends JFrame implements Requirements {
 
         morseToTextButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                cardLayout.show(contentPane, "MorseToText");
+                currentPage = "MorseToText";
+                cardLayout.show(contentPane, currentPage);
             }
         });
 
         textToMorseButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                cardLayout.show(contentPane, "TextToMorse");
+                currentPage = "TextToMorse";
+                cardLayout.show(contentPane, currentPage);
             }
         });
 
         textToBinaryButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                cardLayout.show(contentPane, "TextToBinary");
+                currentPage = "TextToBinary";
+                cardLayout.show(contentPane, currentPage);
             }
         });
 
@@ -245,23 +208,22 @@ public class ConverterApp extends JFrame implements Requirements {
 
         convertMorseToTextButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
+                convert();
             }
         });
 
         morseExampleButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String exampleMorse = ".... . .-.. .-.. ---  .-- --- .-. .-.. -..";
+                String exampleMorse = exampleMorseCode();
                 morseInput.setText(exampleMorse);
-                MorseToText morse = new MorseToText();
-                String result = morse.convert(exampleMorse);
-                morseOutput.setText(result);
+                convert();
             }
         });
 
         swapMorseToText.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                cardLayout.show(contentPane, "TextToMorse");
+                swap();
+//                System.out.println(currentPage);
             }
         });
 
@@ -289,23 +251,21 @@ public class ConverterApp extends JFrame implements Requirements {
 
         convertTextToMorseButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
+                convert();
             }
         });
 
         textExampleButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String exampleText = "Hello World";
+                String exampleText = exampleString();
                 textInput.setText(exampleText);
-                TextToMorse text = new TextToMorse();
-                String results = text.convert(exampleText);
-                textOutput.setText(results);
+                convert();
             }
         });
 
         swapTextToMorse.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                cardLayout.show(contentPane, "MorseToText");
+                swap();
             }
         });
 
@@ -317,7 +277,8 @@ public class ConverterApp extends JFrame implements Requirements {
         JButton backButton2 = createBackButton();
         backButton2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                cardLayout.show(contentPane, "Home");
+                currentPage = "Home";
+                cardLayout.show(contentPane, currentPage);
             }
         });
         textToMorsePanel.add(backButton2);
@@ -332,7 +293,7 @@ public class ConverterApp extends JFrame implements Requirements {
 
         convertTextToBinaryButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
+                convert();
             }
         });
 
